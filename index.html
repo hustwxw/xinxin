@@ -443,58 +443,20 @@
             renderCards();
         }
 
-        let speechReady = false;
-
-        // 移动端语音引擎需要用户交互后"唤醒"
-        function warmupSpeech() {
-            if (!('speechSynthesis' in window)) return;
-            speechSynthesis.cancel();
-            const dummy = new SpeechSynthesisUtterance('');
-            dummy.volume = 0;
-            dummy.lang = 'en-US';
-            speechSynthesis.speak(dummy);
-            speechReady = true;
-        }
-
-        // 页面首次触摸时唤醒语音引擎
-        document.addEventListener('touchstart', function initTouch() {
-            warmupSpeech();
-            document.removeEventListener('touchstart', initTouch);
-        }, { once: true });
-
-        // 页面首次点击时也唤醒（兼容非触摸设备）
-        document.addEventListener('click', function initClick() {
-            warmupSpeech();
-            document.removeEventListener('click', initClick);
-        }, { once: true });
-
         function speakCurrentWord() {
-            if (!('speechSynthesis' in window)) return;
-
-            speechSynthesis.cancel();
-
-            if (!speechReady) warmupSpeech();
-
-            setTimeout(() => {
-                const utterance = new SpeechSynthesisUtterance(filteredWords[currentIndex].word);
-                utterance.lang = 'en-US';
-                utterance.rate = 0.8;
-                utterance.volume = 1;
-
-                // 优先选择英文语音
-                const voices = speechSynthesis.getVoices();
-                const enVoice = voices.find(v => v.lang.startsWith('en') && v.localService) ||
-                                voices.find(v => v.lang.startsWith('en'));
-                if (enVoice) utterance.voice = enVoice;
-
-                speechSynthesis.speak(utterance);
-            }, 50);
-        }
-
-        // iOS 需要异步加载语音列表
-        if ('speechSynthesis' in window) {
-            speechSynthesis.getVoices();
-            speechSynthesis.onvoiceschanged = () => speechSynthesis.getVoices();
+            const word = filteredWords[currentIndex].word;
+            // 使用有道词典发音接口，国内手机全兼容
+            const audio = new Audio('https://dict.youdao.com/dictvoice?audio=' + encodeURIComponent(word) + '&type=1');
+            audio.play().catch(() => {
+                // 备用：浏览器原生语音
+                if ('speechSynthesis' in window) {
+                    speechSynthesis.cancel();
+                    const u = new SpeechSynthesisUtterance(word);
+                    u.lang = 'en-US';
+                    u.rate = 0.8;
+                    speechSynthesis.speak(u);
+                }
+            });
         }
 
         prevBtn.addEventListener('click', () => {
