@@ -68,6 +68,9 @@
             touch-action: pan-y;
             user-select: none;
             -webkit-user-select: none;
+            -webkit-tap-highlight-color: transparent;
+            -webkit-touch-callout: none;
+            overflow: hidden;
         }
         
         .word-card {
@@ -77,11 +80,11 @@
             background: white;
             border-radius: 24px;
             box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-            transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease;
             display: flex;
             flex-direction: column;
             cursor: pointer;
             perspective: 1000px;
+            will-change: transform, opacity;
         }
         
         .card-inner {
@@ -154,22 +157,6 @@
         
         .card-back .word-number {
             color: rgba(255,255,255,0.6);
-        }
-        
-        .word-card.active {
-            z-index: 10;
-        }
-        
-        .word-card.prev {
-            transform: translateX(-30px) scale(0.95);
-            opacity: 0.5;
-            z-index: 5;
-        }
-        
-        .word-card.next {
-            transform: translateX(30px) scale(0.95);
-            opacity: 0.5;
-            z-index: 5;
         }
         
         .card-back .flip-hint-back {
@@ -469,64 +456,58 @@
         const totalWordsEl = document.getElementById('totalWords');
         const learnedWordsEl = document.getElementById('learnedWords');
 
+        function createCard(word, index) {
+            const card = document.createElement('div');
+            card.className = 'word-card';
+            card.innerHTML = `
+                <div class="card-inner">
+                    <div class="card-front">
+                        <div class="card-header">
+                            <span class="word-number">${index + 1} / ${filteredWords.length}</span>
+                            <span class="word-category">${getCategoryName(word.category)}</span>
+                        </div>
+                        <div class="word-main">
+                            <div class="word-title">${word.word}</div>
+                            <div class="word-phonetic">${word.phonetic}</div>
+                            <span class="word-pos">${word.pos}</span>
+                            <div class="word-meaning">${word.meaning}</div>
+                        </div>
+                    </div>
+                    <div class="card-back">
+                        <div class="card-header">
+                            <span class="word-number">${index + 1} / ${filteredWords.length}</span>
+                            <span class="word-category">${getCategoryName(word.category)}</span>
+                        </div>
+                        <div class="word-main">
+                            <div class="word-title">${word.word}</div>
+                            <div class="word-phonetic">${word.phonetic}</div>
+                            <span class="word-pos">${word.pos}</span>
+                            <div class="word-meaning">${word.meaning}</div>
+                            <div class="word-example">
+                                ${word.example}
+                                <div class="cn">${word.exampleCn}</div>
+                            </div>
+                            <div class="memory-tip">${word.tip}</div>
+                        </div>
+                        <div class="flip-hint-back">👆 点击卡片返回正面</div>
+                    </div>
+                </div>
+            `;
+            return card;
+        }
+
         function renderCards() {
             isSwiping = false;
             swipeDelta = 0;
             cardContainer.innerHTML = '';
             
-            filteredWords.forEach((word, index) => {
-                const card = document.createElement('div');
-                card.className = 'word-card';
-                if (index === currentIndex) card.classList.add('active');
-                else if (index === currentIndex - 1) card.classList.add('prev');
-                else if (index === currentIndex + 1) card.classList.add('next');
-                else card.style.display = 'none';
-                
-                card.innerHTML = `
-                    <div class="card-inner">
-                        <div class="card-front">
-                            <div class="card-header">
-                                <span class="word-number">${index + 1} / ${filteredWords.length}</span>
-                                <span class="word-category">${getCategoryName(word.category)}</span>
-                            </div>
-                            <div class="word-main">
-                                <div class="word-title">${word.word}</div>
-                                <div class="word-phonetic">${word.phonetic}</div>
-                                <span class="word-pos">${word.pos}</span>
-                                <div class="word-meaning">${word.meaning}</div>
-                            </div>
-                        </div>
-                        <div class="card-back">
-                            <div class="card-header">
-                                <span class="word-number">${index + 1} / ${filteredWords.length}</span>
-                                <span class="word-category">${getCategoryName(word.category)}</span>
-                            </div>
-                            <div class="word-main">
-                                <div class="word-title">${word.word}</div>
-                                <div class="word-phonetic">${word.phonetic}</div>
-                                <span class="word-pos">${word.pos}</span>
-                                <div class="word-meaning">${word.meaning}</div>
-                                <div class="word-example">
-                                    ${word.example}
-                                    <div class="cn">${word.exampleCn}</div>
-                                </div>
-                                <div class="memory-tip">${word.tip}</div>
-                            </div>
-                            <div class="flip-hint-back">👆 点击卡片返回正面</div>
-                        </div>
-                    </div>
-                `;
-                
-                cardContainer.appendChild(card);
-                
-                // 点击卡片翻转
-                card.addEventListener('click', (e) => {
-                    if (e.target.closest('.controls')) return; // 忽略按钮区域点击
-                    card.classList.toggle('flipped');
-                    isFlipped = !isFlipped;
-                });
+            const card = createCard(filteredWords[currentIndex], currentIndex);
+            card.addEventListener('click', (e) => {
+                if (e.target.closest('.controls')) return;
+                card.classList.toggle('flipped');
+                isFlipped = !isFlipped;
             });
-            
+            cardContainer.appendChild(card);
             updateProgress();
         }
 
@@ -601,72 +582,108 @@
         let touchStartY = 0;
         let isSwiping = false;
         let swipeDelta = 0;
+        let cardEl = null;          // 当前卡片
+        let neighborCard = null;   // 相邻卡片（滑出时露出的）
+        let neighborWord = null;   // 相邻卡片内容
+        let swipeDir = 0;          // 1=左滑(next), -1=右滑(prev)
 
         cardContainer.addEventListener('touchstart', (e) => {
             touchStartX = e.touches[0].clientX;
             touchStartY = e.touches[0].clientY;
             isSwiping = true;
             swipeDelta = 0;
+            swipeDir = 0;
+            cardEl = cardContainer.querySelector('.word-card');
         }, { passive: true });
 
         cardContainer.addEventListener('touchmove', (e) => {
-            if (!isSwiping) return;
+            if (!isSwiping || !cardEl) return;
             const currentX = e.touches[0].clientX;
             const currentY = e.touches[0].clientY;
             const diffX = currentX - touchStartX;
             const diffY = Math.abs(currentY - touchStartY);
+
             // 水平滑动为主时才处理
             if (Math.abs(diffX) > diffY) {
                 e.preventDefault();
                 swipeDelta = diffX;
-                updateCardOffset(diffX);
+                const w = cardContainer.offsetWidth;
+                const pct = diffX / w;
+
+                // 移除transition，实时跟手
+                cardEl.style.transition = 'none';
+                cardEl.style.transform = `translateX(${diffX}px)`;
+
+                // 动态显示相邻卡片
+                if (diffX < 0 && currentIndex < filteredWords.length - 1 && !neighborCard) {
+                    // 左滑 → 出现下一张卡片
+                    swipeDir = 1;
+                    neighborWord = filteredWords[currentIndex + 1];
+                    neighborCard = createCard(neighborWord, currentIndex + 1);
+                    neighborCard.style.transform = `translateX(${w}px)`;
+                    neighborCard.style.transition = 'none';
+                    neighborCard.style.opacity = '1';
+                    neighborCard.addEventListener('click', (ev) => {
+                        if (ev.target.closest('.controls')) return;
+                        neighborCard.classList.toggle('flipped');
+                    });
+                    cardContainer.appendChild(neighborCard);
+                } else if (diffX > 0 && currentIndex > 0 && !neighborCard) {
+                    // 右滑 → 出现上一张卡片
+                    swipeDir = -1;
+                    neighborWord = filteredWords[currentIndex - 1];
+                    neighborCard = createCard(neighborWord, currentIndex - 1);
+                    neighborCard.style.transform = `translateX(${-w}px)`;
+                    neighborCard.style.transition = 'none';
+                    neighborCard.style.opacity = '1';
+                    neighborCard.addEventListener('click', (ev) => {
+                        if (ev.target.closest('.controls')) return;
+                        neighborCard.classList.toggle('flipped');
+                    });
+                    cardContainer.appendChild(neighborCard);
+                }
+
+                // 同步移动相邻卡片
+                if (neighborCard) {
+                    neighborCard.style.transition = 'none';
+                    if (swipeDir === 1) {
+                        // 左滑：相邻卡片从右边(w)向当前卡片位置(0)移动
+                        neighborCard.style.transform = `translateX(${w + diffX}px)`;
+                    } else {
+                        // 右滑：相邻卡片从左边(-w)向当前卡片位置(0)移动
+                        neighborCard.style.transform = `translateX(${diffX - w}px)`;
+                    }
+                }
             }
         }, { passive: false });
 
         cardContainer.addEventListener('touchend', (e) => {
-            if (!isSwiping) return;
+            if (!isSwiping || !cardEl) return;
             isSwiping = false;
-            const threshold = cardContainer.offsetWidth * 0.3;
-            if (swipeDelta > threshold && currentIndex > 0) {
-                isFlipped = false;
-                currentIndex--;
-                renderCards();
-            } else if (swipeDelta < -threshold && currentIndex < filteredWords.length - 1) {
+            const w = cardContainer.offsetWidth;
+            const threshold = w * 0.3;
+
+            if (swipeDelta < -threshold && currentIndex < filteredWords.length - 1) {
+                // 左滑 → 下一张
                 isFlipped = false;
                 currentIndex++;
                 renderCards();
-            } else {
+            } else if (swipeDelta > threshold && currentIndex > 0) {
+                // 右滑 → 上一张
+                isFlipped = false;
+                currentIndex--;
                 renderCards();
+            } else {
+                // 弹回：移除相邻卡片，恢复当前卡片位置
+                if (neighborCard) {
+                    neighborCard.remove();
+                    neighborCard = null;
+                    neighborWord = null;
+                }
+                cardEl.style.transition = 'transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
+                cardEl.style.transform = 'translateX(0)';
             }
         }, { passive: true });
-
-        function updateCardOffset(diffX) {
-            const cards = cardContainer.querySelectorAll('.word-card');
-            const w = cardContainer.offsetWidth;
-            cards.forEach((card, index) => {
-                if (index === currentIndex) {
-                    card.style.transform = `translateX(${diffX}px) scale(${1 - Math.abs(diffX) / w * 0.1})`;
-                    card.style.opacity = 1 - Math.abs(diffX) / w * 0.4;
-                    card.style.zIndex = 10;
-                } else if (index === currentIndex - 1 && diffX > 0) {
-                    card.style.display = '';
-                    card.classList.add('active');
-                    card.style.transform = `translateX(${-30 + diffX}px) scale(${0.95 + diffX / w * 0.03})`;
-                    card.style.opacity = 0.5 + diffX / w * 0.5;
-                    card.style.zIndex = 10;
-                } else if (index === currentIndex + 1 && diffX < 0) {
-                    card.style.display = '';
-                    card.classList.add('active');
-                    card.style.transform = `translateX(${30 + diffX}px) scale(${0.95 + Math.abs(diffX) / w * 0.03})`;
-                    card.style.opacity = 0.5 + Math.abs(diffX) / w * 0.5;
-                    card.style.zIndex = 10;
-                } else {
-                    card.style.transform = '';
-                    card.style.opacity = '';
-                    card.style.zIndex = '';
-                }
-            });
-        }
 
         // 键盘支持
         document.addEventListener('keydown', (e) => {
