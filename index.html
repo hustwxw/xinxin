@@ -65,6 +65,9 @@
             position: relative;
             height: 420px;
             margin: 20px 0;
+            touch-action: pan-y;
+            user-select: none;
+            -webkit-user-select: none;
         }
         
         .word-card {
@@ -467,6 +470,8 @@
         const learnedWordsEl = document.getElementById('learnedWords');
 
         function renderCards() {
+            isSwiping = false;
+            swipeDelta = 0;
             cardContainer.innerHTML = '';
             
             filteredWords.forEach((word, index) => {
@@ -594,35 +599,73 @@
         // 触摸滑动支持
         let touchStartX = 0;
         let touchStartY = 0;
-        let touchEndX = 0;
-        let touchEndY = 0;
+        let isSwiping = false;
+        let swipeDelta = 0;
 
-        document.addEventListener('touchstart', (e) => {
+        cardContainer.addEventListener('touchstart', (e) => {
             touchStartX = e.touches[0].clientX;
             touchStartY = e.touches[0].clientY;
+            isSwiping = true;
+            swipeDelta = 0;
         }, { passive: true });
 
-        document.addEventListener('touchend', (e) => {
-            touchEndX = e.changedTouches[0].clientX;
-            touchEndY = e.changedTouches[0].clientY;
-            handleSwipe();
-        }, { passive: true });
-
-        function handleSwipe() {
-            const diffX = touchStartX - touchEndX;
-            const diffY = touchStartY - touchEndY;
-            // 只处理水平滑动（排除对角线滑动）
-            if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 50) {
-                // 切换卡片时先取消翻转状态
-                isFlipped = false;
-                if (diffX > 0 && currentIndex < filteredWords.length - 1) {
-                    currentIndex++;
-                    renderCards();
-                } else if (diffX < 0 && currentIndex > 0) {
-                    currentIndex--;
-                    renderCards();
-                }
+        cardContainer.addEventListener('touchmove', (e) => {
+            if (!isSwiping) return;
+            const currentX = e.touches[0].clientX;
+            const currentY = e.touches[0].clientY;
+            const diffX = currentX - touchStartX;
+            const diffY = Math.abs(currentY - touchStartY);
+            // 水平滑动为主时才处理
+            if (Math.abs(diffX) > diffY) {
+                e.preventDefault();
+                swipeDelta = diffX;
+                updateCardOffset(diffX);
             }
+        }, { passive: false });
+
+        cardContainer.addEventListener('touchend', (e) => {
+            if (!isSwiping) return;
+            isSwiping = false;
+            const threshold = cardContainer.offsetWidth * 0.3;
+            if (swipeDelta > threshold && currentIndex > 0) {
+                isFlipped = false;
+                currentIndex--;
+                renderCards();
+            } else if (swipeDelta < -threshold && currentIndex < filteredWords.length - 1) {
+                isFlipped = false;
+                currentIndex++;
+                renderCards();
+            } else {
+                renderCards();
+            }
+        }, { passive: true });
+
+        function updateCardOffset(diffX) {
+            const cards = cardContainer.querySelectorAll('.word-card');
+            const w = cardContainer.offsetWidth;
+            cards.forEach((card, index) => {
+                if (index === currentIndex) {
+                    card.style.transform = `translateX(${diffX}px) scale(${1 - Math.abs(diffX) / w * 0.1})`;
+                    card.style.opacity = 1 - Math.abs(diffX) / w * 0.4;
+                    card.style.zIndex = 10;
+                } else if (index === currentIndex - 1 && diffX > 0) {
+                    card.style.display = '';
+                    card.classList.add('active');
+                    card.style.transform = `translateX(${-30 + diffX}px) scale(${0.95 + diffX / w * 0.03})`;
+                    card.style.opacity = 0.5 + diffX / w * 0.5;
+                    card.style.zIndex = 10;
+                } else if (index === currentIndex + 1 && diffX < 0) {
+                    card.style.display = '';
+                    card.classList.add('active');
+                    card.style.transform = `translateX(${30 + diffX}px) scale(${0.95 + Math.abs(diffX) / w * 0.03})`;
+                    card.style.opacity = 0.5 + Math.abs(diffX) / w * 0.5;
+                    card.style.zIndex = 10;
+                } else {
+                    card.style.transform = '';
+                    card.style.opacity = '';
+                    card.style.zIndex = '';
+                }
+            });
         }
 
         // 键盘支持
