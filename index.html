@@ -756,95 +756,19 @@
 
         // ============ 句子数据 ============
         const sentences = [
-            { text: "Good morning!", cn: "早上好！", grammar: "greeting（问候语），通常在上午使用", category: "greeting" },
-            { text: "Good afternoon!", cn: "下午好！", grammar: "greeting（问候语），通常在下午使用", category: "greeting" },
-            { text: "Good evening!", cn: "晚上好！", grammar: "greeting（问候语），通常在傍晚使用", category: "greeting" },
-            { text: "Nice to meet you!", cn: "很高兴认识你！", grammar: "nice = 好的，meet = 遇见，用于初次见面", category: "greeting" },
-            { text: "How are you?", cn: "你好吗？", grammar: "how = 怎样，are = 是，you = 你，询问对方状态", category: "greeting" },
-            { text: "I am fine, thank you.", cn: "我很好，谢谢你。", grammar: "fine = 好，thank you = 谢谢你，回应问候的礼貌说法", category: "greeting" },
-            { text: "What is your name?", cn: "你叫什么名字？", grammar: "what = 什么，name = 名字，用于询问他人姓名", category: "greeting" },
-            { text: "My name is Lily.", cn: "我叫Lily。", grammar: "my = 我的，name = 名字，介绍自己的标准句式", category: "introduction" },
-            { text: "Where are you from?", cn: "你来自哪里？", grammar: "where = 哪里，from = 从，来自，询问籍贯", category: "greeting" },
-            { text: "I am from China.", cn: "我来自中国。", grammar: "China = 中国，回答来自哪里的标准句式", category: "introduction" },
-            { text: "I like apples.", cn: "我喜欢苹果。", grammar: "like = 喜欢，apples = 苹果（复数），表达喜好", category: "daily" },
-            { text: "Do you like bananas?", cn: "你喜欢香蕉吗？", grammar: "Do you like...? = 你喜欢...吗？一般疑问句", category: "daily" },
-            { text: "Yes, I do. / No, I don't.", cn: "是的，我喜欢。/ 不，我不喜欢。", grammar: "do的肯定/否定回答，与Do you...? 配套使用", category: "daily" },
-            { text: "What time is it?", cn: "现在几点了？", grammar: "what time = 什么时间，it = 它（指时间）", category: "daily" },
-            { text: "It is three o'clock.", cn: "现在三点整。", grammar: "o'clock = ...点整，表示整点时间", category: "daily" },
-            { text: "I go to school every day.", cn: "我每天去上学。", grammar: "go to school = 上学，every day = 每天", category: "school" },
-            { text: "What is this?", cn: "这是什么？", grammar: "what is this = 这是什么？，询问近处物品", category: "daily" },
-            { text: "This is a book.", cn: "这是一本书。", grammar: "this is = 这是，用于介绍近处物品", category: "daily" },
-            { text: "How old are you?", cn: "你多大了？", grammar: "how old = 多大/几岁，询问年龄", category: "greeting" },
-            { text: "I am eight years old.", cn: "我八岁了。", grammar: "years old = 岁，表达年龄", category: "greeting" }
+            { text: "Who is she?", cn: "她是谁？", grammar: "who = 谁，she = 她，询问人物身份", category: "greeting" },
+            { text: "She is my mother.", cn: "她是我的妈妈。", grammar: "she = 她，my = 我的，mother = 妈妈", category: "greeting" }
         ];
 
         // ============ 对话数据 ============
         const dialogues = [
             {
-                scene: "初次见面",
+                scene: "她是谁",
                 lines: [
-                    { speaker: "A", text: "Hi! I'm Lily.", cn: "嗨！我叫Lily。" },
-                    { speaker: "B", text: "Hi, Lily! Nice to meet you!", cn: "嗨，Lily！很高兴认识你！" },
-                    { speaker: "A", text: "Nice to meet you too! What's your name?", cn: "我也很高兴认识你！你叫什么名字？" },
-                    { speaker: "B", text: "My name is Tom. Where are you from?", cn: "我叫Tom。你来自哪里？" },
-                    { speaker: "A", text: "I'm from China. And you?", cn: "我来自中国。你呢？" },
-                    { speaker: "B", text: "I'm from the USA.", cn: "我来自美国。" }
+                    { speaker: "A", text: "Who is she?", cn: "她是谁？" },
+                    { speaker: "B", text: "She is my mother.", cn: "她是我的妈妈。" }
                 ],
                 category: "introduction"
-            },
-            {
-                scene: "日常问候",
-                lines: [
-                    { speaker: "A", text: "Good morning, Mom!", cn: "妈妈，早上好！" },
-                    { speaker: "B", text: "Good morning, dear! How are you today?", cn: "早上好，亲爱的！你今天好吗？" },
-                    { speaker: "A", text: "I'm fine, thank you. And you?", cn: "我很好，谢谢。你呢？" },
-                    { speaker: "B", text: "I'm fine too. Did you sleep well?", cn: "我也很好。你睡得好吗？" },
-                    { speaker: "A", text: "Yes, I slept very well!", cn: "是的，我睡得很好！" }
-                ],
-                category: "greeting"
-            },
-            {
-                scene: "教室里",
-                lines: [
-                    { speaker: "A", text: "Good morning, class!", cn: "同学们，早上好！" },
-                    { speaker: "B", text: "Good morning, Miss Wang!", cn: "王老师，早上好！" },
-                    { speaker: "A", text: "Tom, what is your name?", cn: "Tom，你叫什么名字？" },
-                    { speaker: "B", text: "My name is Tom.", cn: "我叫Tom。" },
-                    { speaker: "A", text: "Nice to meet you, Tom!", cn: "很高兴认识你，Tom！" }
-                ],
-                category: "school"
-            },
-            {
-                scene: "水果店",
-                lines: [
-                    { speaker: "A", text: "Hello! Can I help you?", cn: "你好！有什么可以帮你的吗？" },
-                    { speaker: "B", text: "Hi! I want some apples, please.", cn: "嗨！我想要一些苹果。" },
-                    { speaker: "A", text: "How many apples do you want?", cn: "你想要多少苹果？" },
-                    { speaker: "B", text: "I want five apples, please.", cn: "我想要五个苹果。" },
-                    { speaker: "A", text: "Here you are. That's all?", cn: "给你。就这些吗？" },
-                    { speaker: "B", text: "Yes, thank you!", cn: "是的，谢谢！" }
-                ],
-                category: "shopping"
-            },
-            {
-                scene: "问路",
-                lines: [
-                    { speaker: "A", text: "Excuse me. Where is the school?", cn: "打扰一下。学校在哪里？" },
-                    { speaker: "B", text: "It's over there, next to the park.", cn: "在那边，公园旁边。" },
-                    { speaker: "A", text: "Thank you very much!", cn: "非常感谢！" },
-                    { speaker: "B", text: "You're welcome!", cn: "不客气！" }
-                ],
-                category: "daily"
-            },
-            {
-                scene: "打电话",
-                lines: [
-                    { speaker: "A", text: "Hello? May I speak to Lily?", cn: "喂？请找Lily听电话好吗？" },
-                    { speaker: "B", text: "This is Lily speaking. Who is this?", cn: "我就是Lily。你是谁？" },
-                    { speaker: "A", text: "Hi, Lily! This is Tom. How are you?", cn: "嗨，Lily！我是Tom。你好吗？" },
-                    { speaker: "B", text: "I'm fine, thank you. And you?", cn: "我很好，谢谢。你呢？" }
-                ],
-                category: "daily"
             }
         ];
 
