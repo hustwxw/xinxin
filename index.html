@@ -714,7 +714,7 @@
         
         <div class="footer">
             Made with 🐾 by 旺财<br>
-            更新于 2026-04-11
+            <span id="updateTime"></span>
         </div>
     </div>
 
@@ -970,6 +970,20 @@
                 cardEl.style.transform = 'translateX(0)';
             }
         }, { passive: true });
+
+        // 更新底部时间显示（带时分秒）
+        function updateTime() {
+            const now = new Date();
+            const yyyy = now.getFullYear();
+            const MM = String(now.getMonth() + 1).padStart(2, '0');
+            const dd = String(now.getDate()).padStart(2, '0');
+            const hh = String(now.getHours()).padStart(2, '0');
+            const mm = String(now.getMinutes()).padStart(2, '0');
+            const ss = String(now.getSeconds()).padStart(2, '0');
+            document.getElementById('updateTime').textContent = '更新于 ' + yyyy + '-' + MM + '-' + dd + ' ' + hh + ':' + mm + ':' + ss;
+        }
+        updateTime();
+        setInterval(updateTime, 1000);
 
         document.addEventListener('keydown', (e) => {
             if (document.getElementById('wordsMode').classList.contains('active')) {
