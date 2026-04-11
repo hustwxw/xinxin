@@ -757,7 +757,9 @@
         // ============ 句子数据 ============
         const sentences = [
             { text: "Who is she?", cn: "她是谁？", grammar: "who = 谁，she = 她，询问人物身份", category: "greeting" },
-            { text: "She is my mother.", cn: "她是我的妈妈。", grammar: "she = 她，my = 我的，mother = 妈妈", category: "greeting" }
+            { text: "She is my mother.", cn: "她是我的妈妈。", grammar: "she = 她，my = 我的，mother = 妈妈", category: "greeting" },
+            { text: "Who is he?", cn: "他是谁？", grammar: "who = 谁，he = 他，询问人物身份", category: "greeting" },
+            { text: "He is my father.", cn: "他是我爸爸。", grammar: "he = 他，my = 我的，father = 爸爸", category: "greeting" }
         ];
 
         // ============ 对话数据 ============
@@ -767,6 +769,14 @@
                 lines: [
                     { speaker: "A", text: "Who is she?", cn: "她是谁？" },
                     { speaker: "B", text: "She is my mother.", cn: "她是我的妈妈。" }
+                ],
+                category: "introduction"
+            },
+            {
+                scene: "他是谁",
+                lines: [
+                    { speaker: "A", text: "Who is he?", cn: "他是谁？" },
+                    { speaker: "B", text: "He is my father.", cn: "他是我爸爸。" }
                 ],
                 category: "introduction"
             }
