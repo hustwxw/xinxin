@@ -61,6 +61,43 @@
             opacity: 0.8;
         }
         
+        /* 模式切换 Tab */
+        .mode-tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+        
+        .mode-tab {
+            flex: 1;
+            padding: 12px 8px;
+            border: 2px solid rgba(255,255,255,0.5);
+            background: transparent;
+            color: white;
+            border-radius: 16px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+        }
+        
+        .mode-tab .tab-icon {
+            font-size: 20px;
+        }
+        
+        .mode-tab .tab-label {
+            font-size: 12px;
+        }
+        
+        .mode-tab.active {
+            background: white;
+            color: #764ba2;
+            border-color: white;
+        }
+        
         .card-container {
             position: relative;
             height: 420px;
@@ -166,6 +203,51 @@
             margin-top: auto;
         }
         
+        /* 句子卡片样式 */
+        .card-front .sentence-main,
+        .card-back .sentence-main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        
+        .sentence-text {
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+        
+        .card-back .sentence-text {
+            color: white;
+        }
+        
+        .sentence-cn {
+            font-size: 18px;
+            color: #666;
+            margin-bottom: 20px;
+        }
+        
+        .card-back .sentence-cn {
+            color: rgba(255,255,255,0.85);
+        }
+        
+        .sentence-grammar {
+            font-size: 13px;
+            color: #764ba2;
+            padding: 10px 15px;
+            background: linear-gradient(135deg, #f3e7ff 0%, #e8d5f7 100%);
+            border-radius: 12px;
+            border-left: 4px solid #764ba2;
+        }
+        
+        .card-back .sentence-grammar {
+            background: rgba(255,255,255,0.15);
+            color: rgba(255,255,255,0.95);
+        }
+        
         .card-header {
             display: flex;
             justify-content: space-between;
@@ -178,12 +260,20 @@
             color: #999;
         }
         
+        .card-back .word-number {
+            color: rgba(255,255,255,0.6);
+        }
+        
         .word-category {
             background: linear-gradient(135deg, #667eea, #764ba2);
             color: white;
             padding: 4px 12px;
             border-radius: 20px;
             font-size: 12px;
+        }
+        
+        .card-back .word-category {
+            background: rgba(255,255,255,0.25);
         }
         
         .word-main {
@@ -207,6 +297,10 @@
             margin-bottom: 15px;
         }
         
+        .card-back .word-phonetic {
+            color: rgba(255,255,255,0.8);
+        }
+        
         .word-pos {
             display: inline-block;
             background: #f0f0f0;
@@ -217,10 +311,19 @@
             margin-bottom: 15px;
         }
         
+        .card-back .word-pos {
+            background: rgba(255,255,255,0.2);
+            color: rgba(255,255,255,0.9);
+        }
+        
         .word-meaning {
             font-size: 20px;
             color: #333;
             margin-bottom: 20px;
+        }
+        
+        .card-back .word-meaning {
+            color: white;
         }
         
         .word-example {
@@ -233,9 +336,18 @@
             margin-bottom: 15px;
         }
         
+        .card-back .word-example {
+            background: rgba(255,255,255,0.15);
+            color: rgba(255,255,255,0.95);
+        }
+        
         .word-example .cn {
             color: #999;
             margin-top: 5px;
+        }
+        
+        .card-back .word-example .cn {
+            color: rgba(255,255,255,0.7);
         }
         
         .memory-tip {
@@ -247,9 +359,142 @@
             border-left: 4px solid #764ba2;
         }
         
+        .card-back .memory-tip {
+            background: rgba(255,255,255,0.15);
+            border-left-color: rgba(255,255,255,0.5);
+            color: rgba(255,255,255,0.95);
+        }
+        
         .memory-tip::before {
             content: "💡 记忆技巧：";
             font-weight: bold;
+        }
+        
+        /* 对话卡片样式 */
+        .dialogue-card {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: white;
+            border-radius: 24px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            display: flex;
+            flex-direction: column;
+            cursor: pointer;
+            overflow: hidden;
+        }
+        
+        .dialogue-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 25px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        .dialogue-scene {
+            font-size: 16px;
+            font-weight: bold;
+        }
+        
+        .dialogue-progress {
+            font-size: 13px;
+            opacity: 0.8;
+        }
+        
+        .dialogue-body {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        
+        .dialogue-line {
+            display: flex;
+            gap: 10px;
+            animation: slideIn 0.3s ease;
+        }
+        
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .dialogue-line.speaker-a {
+            flex-direction: row;
+        }
+        
+        .dialogue-line.speaker-b {
+            flex-direction: row-reverse;
+        }
+        
+        .dialogue-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            flex-shrink: 0;
+        }
+        
+        .speaker-a .dialogue-avatar {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+        }
+        
+        .speaker-b .dialogue-avatar {
+            background: linear-gradient(135deg, #f093fb, #f5576c);
+            color: white;
+        }
+        
+        .dialogue-bubble {
+            max-width: 75%;
+            padding: 12px 16px;
+            border-radius: 16px;
+            font-size: 15px;
+            line-height: 1.4;
+        }
+        
+        .speaker-a .dialogue-bubble {
+            background: #f0f4ff;
+            color: #333;
+            border-bottom-left-radius: 4px;
+        }
+        
+        .speaker-b .dialogue-bubble {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-bottom-right-radius: 4px;
+        }
+        
+        .dialogue-cn {
+            font-size: 12px;
+            color: #888;
+            margin-top: 4px;
+        }
+        
+        .speaker-b .dialogue-cn {
+            color: rgba(255,255,255,0.7);
+            text-align: right;
+        }
+        
+        .dialogue-footer {
+            padding: 15px;
+            text-align: center;
+            color: #999;
+            font-size: 13px;
+            border-top: 1px solid #f0f0f0;
         }
         
         .controls {
@@ -343,27 +588,21 @@
             margin-top: 15px;
         }
         
-        @keyframes slideIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        
-        .word-card {
-            animation: slideIn 0.4s ease;
-        }
-        
         .footer {
             text-align: center;
             color: rgba(255,255,255,0.6);
             font-size: 12px;
             margin-top: 30px;
             padding-bottom: 20px;
+        }
+        
+        /* 隐藏非当前模式的内容 */
+        .mode-content {
+            display: none;
+        }
+        
+        .mode-content.active {
+            display: block;
         }
     </style>
 </head>
@@ -384,37 +623,103 @@
             </div>
         </div>
         
-        <div class="category-filter">
-            <button class="filter-btn active" data-category="all">全部</button>
-            <button class="filter-btn" data-category="letter">字母</button>
-            <button class="filter-btn" data-category="number">数字</button>
-            <button class="filter-btn" data-category="noun">名词</button>
-            <button class="filter-btn" data-category="adj">形容词</button>
+        <!-- 模式切换 Tab -->
+        <div class="mode-tabs">
+            <button class="mode-tab active" data-mode="words">
+                <span class="tab-icon">📖</span>
+                <span class="tab-label">单词</span>
+            </button>
+            <button class="mode-tab" data-mode="sentences">
+                <span class="tab-icon">💬</span>
+                <span class="tab-label">句子</span>
+            </button>
+            <button class="mode-tab" data-mode="dialogues">
+                <span class="tab-icon">🗣️</span>
+                <span class="tab-label">对话</span>
+            </button>
         </div>
         
-        <div class="progress-bar">
-            <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+        <!-- 单词模式 -->
+        <div class="mode-content active" id="wordsMode">
+            <div class="category-filter">
+                <button class="filter-btn active" data-category="all">全部</button>
+                <button class="filter-btn" data-category="letter">字母</button>
+                <button class="filter-btn" data-category="number">数字</button>
+                <button class="filter-btn" data-category="noun">名词</button>
+                <button class="filter-btn" data-category="adj">形容词</button>
+            </div>
+            
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+            </div>
+            
+            <div class="card-container" id="wordCardContainer"></div>
+            
+            <div class="controls">
+                <button class="btn" id="prevBtn">⬅️</button>
+                <button class="btn btn-play" id="playBtn">🔊</button>
+                <button class="btn" id="nextBtn">➡️</button>
+            </div>
+            
+            <div class="flip-hint">👆 点击卡片翻转（正面：单词 / 背面：例句+记忆技巧）| ⬅️➡️ 左右滑动切换</div>
         </div>
         
-        <div class="card-container" id="cardContainer">
-            <!-- 卡片将通过 JS 动态生成 -->
+        <!-- 句子模式 -->
+        <div class="mode-content" id="sentencesMode">
+            <div class="category-filter">
+                <button class="filter-btn active" data-sent-category="all">全部</button>
+                <button class="filter-btn" data-sent-category="greeting">问候</button>
+                <button class="filter-btn" data-sent-category="daily">日常</button>
+                <button class="filter-btn" data-sent-category="school">学校</button>
+            </div>
+            
+            <div class="progress-bar">
+                <div class="progress-fill" id="sentProgressFill" style="width: 0%"></div>
+            </div>
+            
+            <div class="card-container" id="sentenceCardContainer"></div>
+            
+            <div class="controls">
+                <button class="btn" id="sentPrevBtn">⬅️</button>
+                <button class="btn btn-play" id="sentPlayBtn">🔊</button>
+                <button class="btn" id="sentNextBtn">➡️</button>
+            </div>
+            
+            <div class="flip-hint">👆 点击卡片翻转（正面：英文 / 背面：中文+语法点）| ⬅️➡️ 左右滑动切换</div>
         </div>
         
-        <div class="controls">
-            <button class="btn" id="prevBtn">⬅️</button>
-            <button class="btn btn-play" id="playBtn">🔊</button>
-            <button class="btn" id="nextBtn">➡️</button>
+        <!-- 对话模式 -->
+        <div class="mode-content" id="dialoguesMode">
+            <div class="category-filter">
+                <button class="filter-btn active" data-dia-category="all">全部</button>
+                <button class="filter-btn" data-dia-category="greeting">问候</button>
+                <button class="filter-btn" data-dia-category="introduction">介绍</button>
+                <button class="filter-btn" data-dia-category="shopping">购物</button>
+            </div>
+            
+            <div class="progress-bar">
+                <div class="progress-fill" id="diaProgressFill" style="width: 0%"></div>
+            </div>
+            
+            <div class="card-container" id="dialogueCardContainer"></div>
+            
+            <div class="controls">
+                <button class="btn" id="diaPrevBtn">⬅️</button>
+                <button class="btn btn-play" id="diaPlayBtn">🔊</button>
+                <button class="btn" id="diaNextBtn">➡️</button>
+            </div>
+            
+            <div class="flip-hint">👆 点击卡片切换下一句 | ⬅️➡️ 切换对话</div>
         </div>
-        
-        <div class="flip-hint">👆 点击卡片翻转（正面：单词 / 背面：例句+记忆技巧）| ⬅️➡️ 左右滑动切换</div>
         
         <div class="footer">
             Made with 🐾 by 旺财<br>
-            更新于 2026-04-05
+            更新于 2026-04-11
         </div>
     </div>
 
     <script>
+        // ============ 单词数据 ============
         const words = [
             { word: "big", phonetic: "[bɪɡ]", pos: "adj.", meaning: "大的，巨大的", example: "Look at that big apple!", exampleCn: "看那个大苹果！", tip: "想象一只巨大的蜜蜂（bee）+ 哥哥（g）= 大哥哥 = big（大的）", category: "adj" },
             { word: "little", phonetic: "[ˈlɪtl]", pos: "adj.", meaning: "小的，小巧的", example: "I have a little dog.", exampleCn: "我有一只小狗。", tip: "little 里面有 \"lit\"（点燃），小蜡烛点燃后小小的火苗", category: "adj" },
@@ -446,15 +751,110 @@
             { word: "tail", phonetic: "[teɪl]", pos: "n.", meaning: "尾巴；尾部", example: "The dog wags its tail happily.", exampleCn: "小狗开心地摇着尾巴。", tip: "tail 发音像\"太油\"，尾巴上太油了，滑溜溜的", category: "noun" },
             { word: "nine", phonetic: "[naɪn]", pos: "num.", meaning: "九；九个", example: "I have nine pencils.", exampleCn: "我有九支铅笔。", tip: "nine 发音像\"奈恩\"，九九归一，耐恩（耐心感恩）", category: "number" },
             { word: "bag", phonetic: "[bæɡ]", pos: "n.", meaning: "包；袋子；书包", example: "I carry my books in my bag.", exampleCn: "我把书放在包里背着。", tip: "bag 发音像\"白鸽\"，小白鸽背着一个小包包送信", category: "noun" },
-            { word: "mother", phonetic: "[ˈmʌðər]", pos: "n.", meaning: "妈妈；母亲", example: "My mother cooks delicious food.", exampleCn: "我的妈妈做的饭很好吃。", tip: "mother 谐音\"妈呀\"，妈妈是孩子最亲的人", category: "family" }
+            { word: "mother", phonetic: "[ˈmʌðər]", pos: "n.", meaning: "妈妈；母亲", example: "My mother cooks delicious food.", exampleCn: "我的妈妈做的饭很好吃。", tip: "mother 谐音\"妈呀\"，妈妈是孩子最亲的人", category: "noun" }
         ];
 
+        // ============ 句子数据 ============
+        const sentences = [
+            { text: "Good morning!", cn: "早上好！", grammar: "greeting（问候语），通常在上午使用", category: "greeting" },
+            { text: "Good afternoon!", cn: "下午好！", grammar: "greeting（问候语），通常在下午使用", category: "greeting" },
+            { text: "Good evening!", cn: "晚上好！", grammar: "greeting（问候语），通常在傍晚使用", category: "greeting" },
+            { text: "Nice to meet you!", cn: "很高兴认识你！", grammar: "nice = 好的，meet = 遇见，用于初次见面", category: "greeting" },
+            { text: "How are you?", cn: "你好吗？", grammar: "how = 怎样，are = 是，you = 你，询问对方状态", category: "greeting" },
+            { text: "I am fine, thank you.", cn: "我很好，谢谢你。", grammar: "fine = 好，thank you = 谢谢你，回应问候的礼貌说法", category: "greeting" },
+            { text: "What is your name?", cn: "你叫什么名字？", grammar: "what = 什么，name = 名字，用于询问他人姓名", category: "greeting" },
+            { text: "My name is Lily.", cn: "我叫Lily。", grammar: "my = 我的，name = 名字，介绍自己的标准句式", category: "introduction" },
+            { text: "Where are you from?", cn: "你来自哪里？", grammar: "where = 哪里，from = 从，来自，询问籍贯", category: "greeting" },
+            { text: "I am from China.", cn: "我来自中国。", grammar: "China = 中国，回答来自哪里的标准句式", category: "introduction" },
+            { text: "I like apples.", cn: "我喜欢苹果。", grammar: "like = 喜欢，apples = 苹果（复数），表达喜好", category: "daily" },
+            { text: "Do you like bananas?", cn: "你喜欢香蕉吗？", grammar: "Do you like...? = 你喜欢...吗？一般疑问句", category: "daily" },
+            { text: "Yes, I do. / No, I don't.", cn: "是的，我喜欢。/ 不，我不喜欢。", grammar: "do的肯定/否定回答，与Do you...? 配套使用", category: "daily" },
+            { text: "What time is it?", cn: "现在几点了？", grammar: "what time = 什么时间，it = 它（指时间）", category: "daily" },
+            { text: "It is three o'clock.", cn: "现在三点整。", grammar: "o'clock = ...点整，表示整点时间", category: "daily" },
+            { text: "I go to school every day.", cn: "我每天去上学。", grammar: "go to school = 上学，every day = 每天", category: "school" },
+            { text: "What is this?", cn: "这是什么？", grammar: "what is this = 这是什么？，询问近处物品", category: "daily" },
+            { text: "This is a book.", cn: "这是一本书。", grammar: "this is = 这是，用于介绍近处物品", category: "daily" },
+            { text: "How old are you?", cn: "你多大了？", grammar: "how old = 多大/几岁，询问年龄", category: "greeting" },
+            { text: "I am eight years old.", cn: "我八岁了。", grammar: "years old = 岁，表达年龄", category: "greeting" }
+        ];
+
+        // ============ 对话数据 ============
+        const dialogues = [
+            {
+                scene: "初次见面",
+                lines: [
+                    { speaker: "A", text: "Hi! I'm Lily.", cn: "嗨！我叫Lily。" },
+                    { speaker: "B", text: "Hi, Lily! Nice to meet you!", cn: "嗨，Lily！很高兴认识你！" },
+                    { speaker: "A", text: "Nice to meet you too! What's your name?", cn: "我也很高兴认识你！你叫什么名字？" },
+                    { speaker: "B", text: "My name is Tom. Where are you from?", cn: "我叫Tom。你来自哪里？" },
+                    { speaker: "A", text: "I'm from China. And you?", cn: "我来自中国。你呢？" },
+                    { speaker: "B", text: "I'm from the USA.", cn: "我来自美国。" }
+                ],
+                category: "introduction"
+            },
+            {
+                scene: "日常问候",
+                lines: [
+                    { speaker: "A", text: "Good morning, Mom!", cn: "妈妈，早上好！" },
+                    { speaker: "B", text: "Good morning, dear! How are you today?", cn: "早上好，亲爱的！你今天好吗？" },
+                    { speaker: "A", text: "I'm fine, thank you. And you?", cn: "我很好，谢谢。你呢？" },
+                    { speaker: "B", text: "I'm fine too. Did you sleep well?", cn: "我也很好。你睡得好吗？" },
+                    { speaker: "A", text: "Yes, I slept very well!", cn: "是的，我睡得很好！" }
+                ],
+                category: "greeting"
+            },
+            {
+                scene: "教室里",
+                lines: [
+                    { speaker: "A", text: "Good morning, class!", cn: "同学们，早上好！" },
+                    { speaker: "B", text: "Good morning, Miss Wang!", cn: "王老师，早上好！" },
+                    { speaker: "A", text: "Tom, what is your name?", cn: "Tom，你叫什么名字？" },
+                    { speaker: "B", text: "My name is Tom.", cn: "我叫Tom。" },
+                    { speaker: "A", text: "Nice to meet you, Tom!", cn: "很高兴认识你，Tom！" }
+                ],
+                category: "school"
+            },
+            {
+                scene: "水果店",
+                lines: [
+                    { speaker: "A", text: "Hello! Can I help you?", cn: "你好！有什么可以帮你的吗？" },
+                    { speaker: "B", text: "Hi! I want some apples, please.", cn: "嗨！我想要一些苹果。" },
+                    { speaker: "A", text: "How many apples do you want?", cn: "你想要多少苹果？" },
+                    { speaker: "B", text: "I want five apples, please.", cn: "我想要五个苹果。" },
+                    { speaker: "A", text: "Here you are. That's all?", cn: "给你。就这些吗？" },
+                    { speaker: "B", text: "Yes, thank you!", cn: "是的，谢谢！" }
+                ],
+                category: "shopping"
+            },
+            {
+                scene: "问路",
+                lines: [
+                    { speaker: "A", text: "Excuse me. Where is the school?", cn: "打扰一下。学校在哪里？" },
+                    { speaker: "B", text: "It's over there, next to the park.", cn: "在那边，公园旁边。" },
+                    { speaker: "A", text: "Thank you very much!", cn: "非常感谢！" },
+                    { speaker: "B", text: "You're welcome!", cn: "不客气！" }
+                ],
+                category: "daily"
+            },
+            {
+                scene: "打电话",
+                lines: [
+                    { speaker: "A", text: "Hello? May I speak to Lily?", cn: "喂？请找Lily听电话好吗？" },
+                    { speaker: "B", text: "This is Lily speaking. Who is this?", cn: "我就是Lily。你是谁？" },
+                    { speaker: "A", text: "Hi, Lily! This is Tom. How are you?", cn: "嗨，Lily！我是Tom。你好吗？" },
+                    { speaker: "B", text: "I'm fine, thank you. And you?", cn: "我很好，谢谢。你呢？" }
+                ],
+                category: "daily"
+            }
+        ];
+
+        // ============ 单词模式 ============
         let currentIndex = 0;
         let filteredWords = [...words];
         let currentCategory = 'all';
         let isFlipped = false;
 
-        const cardContainer = document.getElementById('cardContainer');
+        const cardContainer = document.getElementById('wordCardContainer');
         const prevBtn = document.getElementById('prevBtn');
         const nextBtn = document.getElementById('nextBtn');
         const playBtn = document.getElementById('playBtn');
@@ -462,7 +862,7 @@
         const totalWordsEl = document.getElementById('totalWords');
         const learnedWordsEl = document.getElementById('learnedWords');
 
-        function createCard(word, index) {
+        function createWordCard(word, index) {
             const card = document.createElement('div');
             card.className = 'word-card';
             card.innerHTML = `
@@ -507,7 +907,7 @@
             swipeDelta = 0;
             cardContainer.innerHTML = '';
             
-            const card = createCard(filteredWords[currentIndex], currentIndex);
+            const card = createWordCard(filteredWords[currentIndex], currentIndex);
             card.addEventListener('click', (e) => {
                 if (e.target.closest('.controls')) return;
                 card.classList.toggle('flipped');
@@ -518,7 +918,7 @@
         }
 
         function getCategoryName(cat) {
-            const names = { letter: '字母', number: '数字', noun: '名词', adj: '形容词' };
+            const names = { letter: '字母', number: '数字', noun: '名词', adj: '形容词', family: '家庭' };
             return names[cat] || cat;
         }
 
@@ -526,6 +926,7 @@
             const progress = ((currentIndex + 1) / filteredWords.length) * 100;
             progressFill.style.width = `${progress}%`;
             learnedWordsEl.textContent = currentIndex + 1;
+            totalWordsEl.textContent = filteredWords.length;
         }
 
         function filterWords(category) {
@@ -543,10 +944,8 @@
 
         function speakCurrentWord() {
             const word = filteredWords[currentIndex].word;
-            // 使用有道词典发音接口，国内手机全兼容
             const audio = new Audio('https://dict.youdao.com/dictvoice?audio=' + encodeURIComponent(word) + '&type=1');
             audio.play().catch(() => {
-                // 备用：浏览器原生语音
                 if ('speechSynthesis' in window) {
                     speechSynthesis.cancel();
                     const u = new SpeechSynthesisUtterance(word);
@@ -575,30 +974,26 @@
 
         playBtn.addEventListener('click', speakCurrentWord);
 
-        document.querySelectorAll('.filter-btn').forEach(btn => {
+        document.querySelectorAll('#wordsMode .filter-btn').forEach(btn => {
             btn.addEventListener('click', () => {
-                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                document.querySelectorAll('#wordsMode .filter-btn').forEach(b => b.classList.remove('active'));
                 btn.classList.add('active');
                 filterWords(btn.dataset.category);
             });
         });
 
-        // 触摸滑动支持
+        // 单词触摸滑动支持
         let touchStartX = 0;
         let touchStartY = 0;
         let isSwiping = false;
         let swipeDelta = 0;
-        let cardEl = null;          // 当前卡片
-        let neighborCard = null;   // 相邻卡片（滑出时露出的）
-        let neighborWord = null;   // 相邻卡片内容
-        let swipeDir = 0;          // 1=左滑(next), -1=右滑(prev)
+        let cardEl = null;
 
         cardContainer.addEventListener('touchstart', (e) => {
             touchStartX = e.touches[0].clientX;
             touchStartY = e.touches[0].clientY;
             isSwiping = true;
             swipeDelta = 0;
-            swipeDir = 0;
             cardEl = cardContainer.querySelector('.word-card');
         }, { passive: true });
 
@@ -609,106 +1004,311 @@
             const diffX = currentX - touchStartX;
             const diffY = Math.abs(currentY - touchStartY);
 
-            // 水平滑动为主时才处理
             if (Math.abs(diffX) > diffY) {
                 e.preventDefault();
                 swipeDelta = diffX;
-                const w = cardContainer.offsetWidth;
-                const pct = diffX / w;
-
-                // 移除transition，实时跟手
                 cardEl.style.transition = 'none';
                 cardEl.style.transform = `translateX(${diffX}px)`;
-
-                // 动态显示相邻卡片
-                if (diffX < 0 && currentIndex < filteredWords.length - 1 && !neighborCard) {
-                    // 左滑 → 出现下一张卡片
-                    swipeDir = 1;
-                    neighborWord = filteredWords[currentIndex + 1];
-                    neighborCard = createCard(neighborWord, currentIndex + 1);
-                    neighborCard.style.transform = `translateX(${w}px)`;
-                    neighborCard.style.transition = 'none';
-                    neighborCard.style.opacity = '1';
-                    neighborCard.addEventListener('click', (ev) => {
-                        if (ev.target.closest('.controls')) return;
-                        neighborCard.classList.toggle('flipped');
-                    });
-                    cardContainer.appendChild(neighborCard);
-                } else if (diffX > 0 && currentIndex > 0 && !neighborCard) {
-                    // 右滑 → 出现上一张卡片
-                    swipeDir = -1;
-                    neighborWord = filteredWords[currentIndex - 1];
-                    neighborCard = createCard(neighborWord, currentIndex - 1);
-                    neighborCard.style.transform = `translateX(${-w}px)`;
-                    neighborCard.style.transition = 'none';
-                    neighborCard.style.opacity = '1';
-                    neighborCard.addEventListener('click', (ev) => {
-                        if (ev.target.closest('.controls')) return;
-                        neighborCard.classList.toggle('flipped');
-                    });
-                    cardContainer.appendChild(neighborCard);
-                }
-
-                // 同步移动相邻卡片
-                if (neighborCard) {
-                    neighborCard.style.transition = 'none';
-                    if (swipeDir === 1) {
-                        // 左滑：相邻卡片从右边(w)向当前卡片位置(0)移动
-                        neighborCard.style.transform = `translateX(${w + diffX}px)`;
-                    } else {
-                        // 右滑：相邻卡片从左边(-w)向当前卡片位置(0)移动
-                        neighborCard.style.transform = `translateX(${diffX - w}px)`;
-                    }
-                }
             }
         }, { passive: false });
 
-        cardContainer.addEventListener('touchend', (e) => {
+        cardContainer.addEventListener('touchend', () => {
             if (!isSwiping || !cardEl) return;
             isSwiping = false;
             const w = cardContainer.offsetWidth;
             const threshold = w * 0.3;
 
             if (swipeDelta < -threshold && currentIndex < filteredWords.length - 1) {
-                // 左滑 → 下一张
                 isFlipped = false;
                 currentIndex++;
                 renderCards();
             } else if (swipeDelta > threshold && currentIndex > 0) {
-                // 右滑 → 上一张
                 isFlipped = false;
                 currentIndex--;
                 renderCards();
             } else {
-                // 弹回：移除相邻卡片，恢复当前卡片位置
-                if (neighborCard) {
-                    neighborCard.remove();
-                    neighborCard = null;
-                    neighborWord = null;
-                }
                 cardEl.style.transition = 'transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
                 cardEl.style.transform = 'translateX(0)';
             }
         }, { passive: true });
 
-        // 键盘支持
         document.addEventListener('keydown', (e) => {
-            if (e.key === 'ArrowLeft' && currentIndex > 0) {
-                isFlipped = false;
-                currentIndex--;
-                renderCards();
-            } else if (e.key === 'ArrowRight' && currentIndex < filteredWords.length - 1) {
-                isFlipped = false;
-                currentIndex++;
-                renderCards();
-            } else if (e.key === ' ') {
-                e.preventDefault();
-                speakCurrentWord();
+            if (document.getElementById('wordsMode').classList.contains('active')) {
+                if (e.key === 'ArrowLeft' && currentIndex > 0) {
+                    isFlipped = false;
+                    currentIndex--;
+                    renderCards();
+                } else if (e.key === 'ArrowRight' && currentIndex < filteredWords.length - 1) {
+                    isFlipped = false;
+                    currentIndex++;
+                    renderCards();
+                } else if (e.key === ' ') {
+                    e.preventDefault();
+                    speakCurrentWord();
+                }
             }
         });
 
-        // 初始化
+        // ============ 句子模式 ============
+        let sentIndex = 0;
+        let filteredSentences = [...sentences];
+        let sentCategory = 'all';
+        let sentFlipped = false;
+
+        const sentenceCardContainer = document.getElementById('sentenceCardContainer');
+        const sentPrevBtn = document.getElementById('sentPrevBtn');
+        const sentNextBtn = document.getElementById('sentNextBtn');
+        const sentPlayBtn = document.getElementById('sentPlayBtn');
+        const sentProgressFill = document.getElementById('sentProgressFill');
+
+        function createSentenceCard(sentence, index) {
+            const card = document.createElement('div');
+            card.className = 'word-card';
+            card.innerHTML = `
+                <div class="card-inner">
+                    <div class="card-front">
+                        <div class="card-header">
+                            <span class="word-number">${index + 1} / ${filteredSentences.length}</span>
+                            <span class="word-category">${getSentCategoryName(sentence.category)}</span>
+                        </div>
+                        <div class="sentence-main">
+                            <div class="sentence-text">${sentence.text}</div>
+                            <div class="word-phonetic">点击卡片查看翻译</div>
+                        </div>
+                    </div>
+                    <div class="card-back">
+                        <div class="card-header">
+                            <span class="word-number">${index + 1} / ${filteredSentences.length}</span>
+                            <span class="word-category">${getSentCategoryName(sentence.category)}</span>
+                        </div>
+                        <div class="sentence-main">
+                            <div class="sentence-text">${sentence.text}</div>
+                            <div class="sentence-cn">${sentence.cn}</div>
+                            <div class="sentence-grammar">📝 ${sentence.grammar}</div>
+                        </div>
+                        <div class="flip-hint-back">👆 点击卡片返回正面</div>
+                    </div>
+                </div>
+            `;
+            return card;
+        }
+
+        function getSentCategoryName(cat) {
+            const names = { greeting: '问候', daily: '日常', school: '学校', introduction: '介绍' };
+            return names[cat] || cat;
+        }
+
+        function renderSentenceCards() {
+            sentenceCardContainer.innerHTML = '';
+            const card = createSentenceCard(filteredSentences[sentIndex], sentIndex);
+            card.addEventListener('click', () => {
+                card.classList.toggle('flipped');
+                sentFlipped = !sentFlipped;
+            });
+            sentenceCardContainer.appendChild(card);
+            updateSentProgress();
+        }
+
+        function updateSentProgress() {
+            const progress = ((sentIndex + 1) / filteredSentences.length) * 100;
+            sentProgressFill.style.width = `${progress}%`;
+        }
+
+        function filterSentences(category) {
+            sentCategory = category;
+            if (category === 'all') {
+                filteredSentences = [...sentences];
+            } else {
+                filteredSentences = sentences.filter(s => s.category === category);
+            }
+            sentIndex = 0;
+            sentFlipped = false;
+            renderSentenceCards();
+        }
+
+        function speakSentence() {
+            const text = filteredSentences[sentIndex].text;
+            const audio = new Audio('https://dict.youdao.com/dictvoice?audio=' + encodeURIComponent(text) + '&type=1');
+            audio.play().catch(() => {
+                if ('speechSynthesis' in window) {
+                    speechSynthesis.cancel();
+                    const u = new SpeechSynthesisUtterance(text);
+                    u.lang = 'en-US';
+                    u.rate = 0.8;
+                    speechSynthesis.speak(u);
+                }
+            });
+        }
+
+        sentPrevBtn.addEventListener('click', () => {
+            if (sentIndex > 0) {
+                sentFlipped = false;
+                sentIndex--;
+                renderSentenceCards();
+            }
+        });
+
+        sentNextBtn.addEventListener('click', () => {
+            if (sentIndex < filteredSentences.length - 1) {
+                sentFlipped = false;
+                sentIndex++;
+                renderSentenceCards();
+            }
+        });
+
+        sentPlayBtn.addEventListener('click', speakSentence);
+
+        document.querySelectorAll('#sentencesMode .filter-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('#sentencesMode .filter-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                filterSentences(btn.dataset.sentCategory);
+            });
+        });
+
+        // ============ 对话模式 ============
+        let diaIndex = 0;
+        let filteredDialogues = [...dialogues];
+        let diaCategory = 'all';
+        let currentLineIndex = 0;
+
+        const dialogueCardContainer = document.getElementById('dialogueCardContainer');
+        const diaPrevBtn = document.getElementById('diaPrevBtn');
+        const diaNextBtn = document.getElementById('diaNextBtn');
+        const diaPlayBtn = document.getElementById('diaPlayBtn');
+        const diaProgressFill = document.getElementById('diaProgressFill');
+
+        function createDialogueCard(dialogue, index) {
+            const card = document.createElement('div');
+            card.className = 'dialogue-card';
+            
+            const linesHtml = dialogue.lines.map((line, i) => {
+                const showClass = i <= currentLineIndex ? '' : 'hidden-line';
+                return `
+                    <div class="dialogue-line ${line.speaker === 'A' ? 'speaker-a' : 'speaker-b'} ${showClass}">
+                        <div class="dialogue-avatar">${line.speaker}</div>
+                        <div class="dialogue-bubble">
+                            ${line.text}
+                            <div class="dialogue-cn">${line.cn}</div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            card.innerHTML = `
+                <div class="dialogue-header">
+                    <span class="dialogue-scene">🏷️ ${dialogue.scene}</span>
+                    <span class="dialogue-progress">${index + 1} / ${filteredDialogues.length}</span>
+                </div>
+                <div class="dialogue-body">
+                    ${linesHtml}
+                </div>
+                <div class="dialogue-footer">
+                    👆 点击卡片继续 | ${dialogue.lines.length} 句话
+                </div>
+            `;
+
+            // 点击卡片显示下一句
+            card.addEventListener('click', () => {
+                if (currentLineIndex < dialogue.lines.length - 1) {
+                    currentLineIndex++;
+                    updateDialogueDisplay(card, dialogue);
+                }
+            });
+
+            return card;
+        }
+
+        function updateDialogueDisplay(card, dialogue) {
+            const lines = card.querySelectorAll('.dialogue-line');
+            lines.forEach((line, i) => {
+                if (i <= currentLineIndex) {
+                    line.classList.remove('hidden-line');
+                }
+            });
+        }
+
+        function renderDialogueCards() {
+            dialogueCardContainer.innerHTML = '';
+            const card = createDialogueCard(filteredDialogues[diaIndex], diaIndex);
+            dialogueCardContainer.appendChild(card);
+            updateDiaProgress();
+        }
+
+        function updateDiaProgress() {
+            const progress = ((diaIndex + 1) / filteredDialogues.length) * 100;
+            diaProgressFill.style.width = `${progress}%`;
+        }
+
+        function filterDialogues(category) {
+            diaCategory = category;
+            if (category === 'all') {
+                filteredDialogues = [...dialogues];
+            } else {
+                filteredDialogues = dialogues.filter(d => d.category === category);
+            }
+            diaIndex = 0;
+            currentLineIndex = 0;
+            renderDialogueCards();
+        }
+
+        function speakDialogue() {
+            const dialogue = filteredDialogues[diaIndex];
+            const text = dialogue.lines.map(l => l.text).join(' ');
+            if ('speechSynthesis' in window) {
+                speechSynthesis.cancel();
+                const u = new SpeechSynthesisUtterance(text);
+                u.lang = 'en-US';
+                u.rate = 0.8;
+                speechSynthesis.speak(u);
+            }
+        }
+
+        diaPrevBtn.addEventListener('click', () => {
+            if (diaIndex > 0) {
+                diaIndex--;
+                currentLineIndex = 0;
+                renderDialogueCards();
+            }
+        });
+
+        diaNextBtn.addEventListener('click', () => {
+            if (diaIndex < filteredDialogues.length - 1) {
+                diaIndex++;
+                currentLineIndex = 0;
+                renderDialogueCards();
+            }
+        });
+
+        diaPlayBtn.addEventListener('click', speakDialogue);
+
+        document.querySelectorAll('#dialoguesMode .filter-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('#dialoguesMode .filter-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                filterDialogues(btn.dataset.diaCategory);
+            });
+        });
+
+        // ============ 模式切换 ============
+        document.querySelectorAll('.mode-tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                document.querySelectorAll('.mode-tab').forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                
+                document.querySelectorAll('.mode-content').forEach(content => {
+                    content.classList.remove('active');
+                });
+                
+                const mode = tab.dataset.mode;
+                document.getElementById(mode + 'Mode').classList.add('active');
+            });
+        });
+
+        // ============ 初始化 ============
         renderCards();
+        renderSentenceCards();
+        renderDialogueCards();
     </script>
 </body>
 </html>
