@@ -1062,19 +1062,23 @@
 
         function speakSentence() {
             const text = filteredSentences[sentIndex].text;
-            // 去除首尾空格
             const cleanText = text.trim();
-            // 尝试Google TTS（更稳定）
-            const googleAudio = new Audio('https://translate.google.com/translate_tts?ie=UTF-8&q=' + encodeURIComponent(cleanText) + '&tl=en&client=tw-ob');
-            googleAudio.play().catch(() => {
-                // Fallback到浏览器语音合成
-                if ('speechSynthesis' in window) {
-                    speechSynthesis.cancel();
-                    const u = new SpeechSynthesisUtterance(cleanText);
-                    u.lang = 'en-US';
-                    u.rate = 0.85;
-                    speechSynthesis.speak(u);
-                }
+            
+            // 1. 优先使用有道词典TTS
+            const youdaoAudio = new Audio('https://dict.youdao.com/dictvoice?audio=' + encodeURIComponent(cleanText) + '&type=1');
+            youdaoAudio.play().catch(() => {
+                // 2. 有道失败，尝试Google TTS
+                const googleAudio = new Audio('https://translate.google.com/translate_tts?ie=UTF-8&q=' + encodeURIComponent(cleanText) + '&tl=en&client=tw-ob');
+                googleAudio.play().catch(() => {
+                    // 3. Google也失败，使用浏览器语音合成
+                    if ('speechSynthesis' in window) {
+                        speechSynthesis.cancel();
+                        const u = new SpeechSynthesisUtterance(cleanText);
+                        u.lang = 'en-US';
+                        u.rate = 0.85;
+                        speechSynthesis.speak(u);
+                    }
+                });
             });
         }
 
@@ -1194,17 +1198,22 @@
             const dialogue = filteredDialogues[diaIndex];
             const text = dialogue.lines.map(l => l.text).join(' ');
             const cleanText = text.trim();
-            // 尝试Google TTS
-            const googleAudio = new Audio('https://translate.google.com/translate_tts?ie=UTF-8&q=' + encodeURIComponent(cleanText) + '&tl=en&client=tw-ob');
-            googleAudio.play().catch(() => {
-                // Fallback到浏览器语音合成
-                if ('speechSynthesis' in window) {
-                    speechSynthesis.cancel();
-                    const u = new SpeechSynthesisUtterance(cleanText);
-                    u.lang = 'en-US';
-                    u.rate = 0.85;
-                    speechSynthesis.speak(u);
-                }
+            
+            // 1. 优先使用有道词典TTS
+            const youdaoAudio = new Audio('https://dict.youdao.com/dictvoice?audio=' + encodeURIComponent(cleanText) + '&type=1');
+            youdaoAudio.play().catch(() => {
+                // 2. 有道失败，尝试Google TTS
+                const googleAudio = new Audio('https://translate.google.com/translate_tts?ie=UTF-8&q=' + encodeURIComponent(cleanText) + '&tl=en&client=tw-ob');
+                googleAudio.play().catch(() => {
+                    // 3. Google也失败，使用浏览器语音合成
+                    if ('speechSynthesis' in window) {
+                        speechSynthesis.cancel();
+                        const u = new SpeechSynthesisUtterance(cleanText);
+                        u.lang = 'en-US';
+                        u.rate = 0.85;
+                        speechSynthesis.speak(u);
+                    }
+                });
             });
         }
 
