@@ -647,6 +647,7 @@
                 <button class="filter-btn" data-category="number">数字</button>
                 <button class="filter-btn" data-category="noun">名词</button>
                 <button class="filter-btn" data-category="adj">形容词</button>
+                <button class="filter-btn" data-category="family">家庭</button>
             </div>
             
             <div class="progress-bar">
@@ -714,7 +715,7 @@
         
         <div class="footer">
             Made with 🐾 by 旺财<br>
-            更新于 2026-04-18 21:24:53
+            更新于 2026-04-19 22:15:00
         </div>
     </div>
 
@@ -735,7 +736,7 @@
             { word: "five", phonetic: "[faɪv]", pos: "num.", meaning: "五，五个", example: "I have five fingers.", exampleCn: "我有五根手指。", tip: "five 发音像\"爱我\"，五根手指比心爱你的形状", category: "number" },
             { word: "six", phonetic: "[sɪks]", pos: "num.", meaning: "六，六个", example: "Six little ducks.", exampleCn: "六只小鸭子。", tip: "six 发音像\"谁可死\"，六六大顺，谁都不死", category: "number" },
             { word: "seven", phonetic: "[ˈsevn]", pos: "num.", meaning: "七，七个", example: "Seven days in a week.", exampleCn: "一周有七天。", tip: "seven 发音像\"塞文\"，七天塞满一星期", category: "number" },
-            { word: "dad", phonetic: "[dæd]", pos: "n.", meaning: "爸爸", example: "I love my dad.", exampleCn: "我爱我的爸爸。", tip: "dad 发音像\"呆呆\"，爸爸有时候看起来呆呆的", category: "noun" },
+            { word: "dad", phonetic: "[dæd]", pos: "n.", meaning: "爸爸", example: "I love my dad.", exampleCn: "我爱我的爸爸。", tip: "dad 发音像\"呆呆\"，爸爸有时候看起来呆呆的", category: "family" },
             { word: "ant", phonetic: "[ænt]", pos: "n.", meaning: "蚂蚁", example: "The ant is carrying a small leaf.", exampleCn: "那只蚂蚁正在搬一片小叶子。", tip: "ant 发音像\"安特\"，蚂蚁家族安安静静地特别勤劳", category: "noun" },
             { word: "mouth", phonetic: "[maʊθ]", pos: "n.", meaning: "嘴巴", example: "Open your mouth wide.", exampleCn: "把你的嘴巴张大。", tip: "mouth 里有 \"outh\"，嘴巴张成 O 形", category: "noun" },
             { word: "nose", phonetic: "[noʊz]", pos: "n.", meaning: "鼻子", example: "My nose is cold.", exampleCn: "我的鼻子好冷。", tip: "nose 发音像\"钮子\"，鼻子像两颗钮子", category: "noun" },
@@ -753,7 +754,7 @@
             { word: "tail", phonetic: "[teɪl]", pos: "n.", meaning: "尾巴；尾部", example: "The dog wags its tail happily.", exampleCn: "小狗开心地摇着尾巴。", tip: "tail 发音像\"太油\"，尾巴上太油了，滑溜溜的", category: "noun" },
             { word: "nine", phonetic: "[naɪn]", pos: "num.", meaning: "九；九个", example: "I have nine pencils.", exampleCn: "我有九支铅笔。", tip: "nine 发音像\"奈恩\"，九九归一，耐恩（耐心感恩）", category: "number" },
             { word: "bag", phonetic: "[bæɡ]", pos: "n.", meaning: "包；袋子；书包", example: "I carry my books in my bag.", exampleCn: "我把书放在包里背着。", tip: "bag 发音像\"白鸽\"，小白鸽背着一个小包包送信", category: "noun" },
-            { word: "mother", phonetic: "[ˈmʌðər]", pos: "n.", meaning: "妈妈；母亲", example: "My mother cooks delicious food.", exampleCn: "我的妈妈做的饭很好吃。", tip: "mother 谐音\"妈呀\"，妈妈是孩子最亲的人", category: "noun" },
+            { word: "mother", phonetic: "[ˈmʌðər]", pos: "n.", meaning: "妈妈；母亲", example: "My mother cooks delicious food.", exampleCn: "我的妈妈做的饭很好吃。", tip: "mother 谐音\"妈呀\"，妈妈是孩子最亲的人", category: "family" },
             { word: "dog", phonetic: "[dɔːɡ]", pos: "n.", meaning: "狗", example: "The dog likes to play with a ball.", exampleCn: "这只狗喜欢玩球。", tip: "dog 发音像\"刀哥\"，狗狗是刀哥的好朋友", category: "noun" },
             { word: "doll", phonetic: "[dɑːl]", pos: "n.", meaning: "玩具娃娃；玩偶", example: "I have a beautiful doll.", exampleCn: "我有一个漂亮的娃娃。", tip: "doll 发音像\"豆儿\"，小娃娃像一颗可爱的小豆子", category: "noun" },
             { word: "arm", phonetic: "[ɑːrm]", pos: "n.", meaning: "手臂；胳膊", example: "I have two arms.", exampleCn: "我有两只手臂。", tip: "arm 发音像\"啊姆\"，手臂伸出来好像在说\"啊姆\"", category: "noun" },
@@ -762,6 +763,10 @@
             { word: "foot", phonetic: "[fʊt]", pos: "n.", meaning: "脚；足", example: "I wear shoes on my feet.", exampleCn: "我穿鞋子在脚上。", tip: "foot 发音像\"富特\"，脚托住身体像特使一样富足", category: "noun" },
             { word: "tooth", phonetic: "[tuːθ]", pos: "n.", meaning: "牙齿；齿", example: "Brush your tooth every day.", exampleCn: "每天都要刷牙。", tip: "tooth 发音像\"兔死\"，兔子爱吃胡萝卜要靠牙齿", category: "noun" },
             { word: "cup", phonetic: "[kʌp]", pos: "n.", meaning: "杯子；茶杯", example: "I drink water from a cup.", exampleCn: "我用杯子喝水。", tip: "cup 发音像\"卡普\"，杯子里装满卡片（card）普普通通", category: "noun" },
+            { word: "grandpa", phonetic: "[ˈɡrænpɑː]", pos: "n.", meaning: "爷爷；外公", example: "My grandpa tells me stories.", exampleCn: "我爷爷给我讲故事。", tip: "grand = 大的，pa = 爸爸的爸爸 = 爷爷，大爸爸就是爷爷", category: "family" },
+            { word: "grandma", phonetic: "[ˈɡrænmɑː]", pos: "n.", meaning: "奶奶；外婆", example: "My grandma makes yummy food.", exampleCn: "我奶奶做的饭很好吃。", tip: "grand = 大的，ma = 妈妈，妈妈的妈妈 = 奶奶", category: "family" },
+            { word: "brother", phonetic: "[ˈbrʌðər]", pos: "n.", meaning: "兄弟；哥哥；弟弟", example: "My brother and I play together.", exampleCn: "我和哥哥一起玩。", tip: "brother 谐音\"布拉泽\"，兄弟布拉泽一起玩耍", category: "family" },
+            { word: "sister", phonetic: "[ˈsɪstər]", pos: "n.", meaning: "姐妹；姐姐；妹妹", example: "My sister is very kind.", exampleCn: "我的姐姐很温柔。", tip: "sister 谐音\"希斯特\"，姐姐希斯特像星星一样温柔", category: "family" },
             { word: "ten", phonetic: "[ten]", pos: "num.", meaning: "十（数字10）", example: "One, two, three... ten!", exampleCn: "一、二、三……十！", tip: "ten 发音像\"疼\"，数到十根手指头手都数疼了", category: "number" },
             { word: "big E", phonetic: "[iː]", pos: "n.", meaning: "大写字母E", example: "Big E looks like a comb.", exampleCn: "大写E像一把梳子。", tip: "大写E有三条横线，像一把梳子，大大的 = big E", category: "letter" },
             { word: "little e", phonetic: "[iː]", pos: "n.", meaning: "小写字母e", example: "Little e looks like a small curl.", exampleCn: "小写e像一个小卷儿。", tip: "小写e像一个小蜗牛卷，小小的 = little e", category: "letter" },
